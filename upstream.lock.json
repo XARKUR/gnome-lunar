@@ -1,0 +1,11 @@
+{
+  "url": "https://extensions.gnome.org/extension/675/lunar-calendar/",
+  "version": 54,
+  "archive_sha256": "f2caaff6035445c3d5820f4b33aa0a9aec36a23fd732f7e288754ce7d73fc353",
+  "upstream_uuid": "lunarcal@ailin.nemui",
+  "upstream_schema": "org.gnome.shell.extensions.lunar-calendar",
+  "calendar_url": "https://gitlab.gnome.org/Nei/ChineseCalendar/-/archive/20250205/ChineseCalendar-20250205.tar.gz",
+  "calendar_sha256": "8405c36766e31dc5ebd19186773cf27c8eb5c331934ef0e77e9bf5d01b5f94ef",
+  "role": "Reference only for extension functionality; no upstream UI, preferences or backend adapter code is shipped.",
+  "calendar_role": "Bundled GPL-3.0 astronomy dependency with ESM import/export adaptation; our civil-date engine calls calDataYear directly."
+}

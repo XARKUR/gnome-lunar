@@ -1,0 +1,54 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\nLanguage: zh_CN\n"
+
+msgid "Lunar calendar"
+msgstr "农历"
+
+msgid "Top bar"
+msgstr "顶栏"
+
+msgid "Calendar"
+msgstr "月历"
+
+msgid "Date details"
+msgstr "日期详情"
+
+msgid "Traditional festivals are not official holiday or adjusted workday schedules."
+msgstr "传统节日不代表法定放假或调休安排。"
+
+msgid "Show lunar date"
+msgstr "显示农历日期"
+
+msgid "Show traditional two-hour period"
+msgstr "显示时辰"
+
+msgid "Annotate calendar days"
+msgstr "在月历中显示农历"
+
+msgid "Lunar label size"
+msgstr "农历字号"
+
+msgid "Small"
+msgstr "小"
+
+msgid "Normal"
+msgstr "标准"
+
+msgid "Large"
+msgstr "大"
+
+msgid "Show selected date details"
+msgstr "显示选中日期详情"
+
+msgid "Show cyclical year and zodiac"
+msgstr "显示干支年与生肖"
+
+msgid "Show traditional festivals"
+msgstr "显示传统节日"
+
+msgid "Show the 24 solar terms"
+msgstr "显示二十四节气"
+
+msgid "Lunar dates are available from 1734 to 2200."
+msgstr "农历支持公历 1734–2200 年。"
+

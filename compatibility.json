@@ -1,0 +1,76 @@
+{
+  "supported_shell": [
+    "43",
+    "48",
+    "51"
+  ],
+  "targets": [
+    {
+      "distribution": "Debian",
+      "shell_major": "43",
+      "source_review": "43.9 installed resources",
+      "real_session_tested": true,
+      "runtime_version": "43.9"
+    },
+    {
+      "distribution": "Debian 13",
+      "shell_major": "48",
+      "source_review": "48.0",
+      "real_session_tested": true,
+      "runtime_version": "48.7"
+    },
+    {
+      "distribution": "Arch Linux",
+      "shell_major": "51",
+      "source_review": "51.1",
+      "real_session_tested": true,
+      "runtime_version": "51.1"
+    }
+  ],
+  "selection": "Shared source, modern ESM package for 48/51 and generated legacy-loader package for 43; installer detects the current Shell.",
+  "reviewed_sources": {
+    "48.0/calendar.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/48.0/js/ui/calendar.js",
+      "sha256": "77bef1bd6b9c54bf81daa599b05dbfe86328ae5a8f26fb8250212094e55e77fd"
+    },
+    "48.0/dateMenu.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/48.0/js/ui/dateMenu.js",
+      "sha256": "73d654123607c34f2d7503a2f126278fd917de2764e1ba3d2a3b2a31dc749a12"
+    },
+    "48.0/panelMenu.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/48.0/js/ui/panelMenu.js",
+      "sha256": "4cc00b80556dcd5b19161ab7ff1f37825e1fe1df4dc5f98b8c353d4b2b7b48af"
+    },
+    "51.1/calendar.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/51.1/js/ui/calendar.js",
+      "sha256": "67b7ef2d19117e5d0a1c66acb136626ce509b0d99e02edc080b3f23f066369c5"
+    },
+    "51.1/dateMenu.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/51.1/js/ui/dateMenu.js",
+      "sha256": "43750bed09de13414d1cc63d0002cb27812701b1f5309656e3d109b7dfdcdda0"
+    },
+    "51.1/panelMenu.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/51.1/js/ui/panelMenu.js",
+      "sha256": "d1ee9dc5e8f576c3b26a99c008e7ed804295ca07b971d8af44b5a5d25021c3d8"
+    },
+    "43.9/calendar.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/43.9/js/ui/calendar.js",
+      "installed_resource": "/org/gnome/shell/ui/calendar.js",
+      "sha256": "1639e3d67d04d533870002413880ef935f1912ccbc7c43b8e4f368a5a7671dd4"
+    },
+    "43.9/dateMenu.js": {
+      "url": "https://github.com/GNOME/gnome-shell/blob/43.9/js/ui/dateMenu.js",
+      "installed_resource": "/org/gnome/shell/ui/dateMenu.js",
+      "sha256": "dce2d7ce891fd25a31a7fc459b4d408987c1ba384323e5d391ae3369013832bc"
+    }
+  },
+  "package_shell_versions": {
+    "modern": [
+      "48",
+      "51"
+    ],
+    "legacy43": [
+      "43"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+GNOME Lunar Calendar — independent implementation
+
+Project-owned extension entry point, date-menu integration, preferences,
+civil-date engine, formatting, festival list, tooling and tests:
+Copyright (C) 2026 System project contributors. GPL-3.0-or-later.
+This project is not an official release of Lunar Calendar by Nei.
+The earlier fork has been archived separately; its UI and backend adapters
+are not included in this distribution.
+
+Functional reference (not bundled extension code):
+Lunar Calendar by Ailin Nemui / Nei, published version 54.
+https://extensions.gnome.org/extension/675/lunar-calendar/
+Historical archive identification is retained in upstream.lock.json.
+
+Bundled third-party astronomy code and data:
+ChineseCalendar by ytliu0, integration snapshot Nei/ChineseCalendar 20250205.
+https://github.com/ytliu0/ChineseCalendar
+https://gitlab.gnome.org/Nei/ChineseCalendar
+GPL-3.0; included under src/vendor/ChineseCalendar, including COPYING.
+The files were adapted to explicit ESM imports/exports in the earlier project;
+this rewrite leaves that dependency unchanged. It is not claimed as our own work.
+
+Native calendar/layout test fixtures are excerpts of GNOME Shell calendar.js and dateMenu.js,
+versions 43.9, 48.0 and 51.1, from the GNOME Project, GPL-2.0-or-later.
+Their URLs and source hashes are recorded in compatibility.json and
+tests/fixtures/native-calendars.json and tests/fixtures/native-popup-layouts.json.
+Automated fixture tests use simulated actors; real desktop validation is recorded
+separately in VALIDATION.json.
+
+This combined distribution is provided under GPLv3. See LICENSE.

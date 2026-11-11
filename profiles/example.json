@@ -1,0 +1,10 @@
+{
+  "show-date": "true",
+  "show-time": "false",
+  "show-calendar": "true",
+  "label-size": "'normal'",
+  "show-details": "true",
+  "show-ganzhi": "true",
+  "show-festivals": "true",
+  "show-solar-terms": "true"
+}

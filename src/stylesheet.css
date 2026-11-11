@@ -1,0 +1,25 @@
+/* Native Shell colours are inherited, including light/dark and high contrast. */
+.system-lunar-calendar .calendar-day {
+    font-size: 1.05em;
+    /* Reserve the same space for two-character dates and three-character festivals.
+       Override themes that force single-line square cells with !important. */
+    width: 3.2em !important;
+    height: 3.6em !important;
+    min-width: 3.2em;
+    min-height: 3.6em;
+}
+.system-lunar-day { font-size: 0.90em; font-weight: normal; }
+.system-lunar-size-small .system-lunar-day { font-size: 0.80em; }
+.system-lunar-size-large .system-lunar-day { font-size: 1.0em; }
+.system-lunar-special { font-weight: bold; }
+/* The native two-line Gregorian heading reserves extra height in some themes. */
+.datemenu-today-button.system-lunar-today {
+    min-height: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.system-lunar-details { spacing: 0.3em; }
+.system-lunar-details-heading { spacing: 1em; }
+.system-lunar-details-date { font-size: 1.15em; font-weight: bold; }
+.system-lunar-details-year { font-size: 1.0em; }
+.system-lunar-details-events { font-size: 1.0em; }

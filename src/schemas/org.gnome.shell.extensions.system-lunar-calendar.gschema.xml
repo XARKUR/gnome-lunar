@@ -1,0 +1,12 @@
+<schemalist gettext-domain="lunar-calendar@system.local">
+  <schema id="org.gnome.shell.extensions.system-lunar-calendar" path="/org/gnome/shell/extensions/system-lunar-calendar/">
+    <key name="show-date" type="b"><default>true</default><summary>Show lunar date in the top bar</summary></key>
+    <key name="show-time" type="b"><default>false</default><summary>Show the traditional two-hour period</summary></key>
+    <key name="show-calendar" type="b"><default>true</default><summary>Annotate the native month grid</summary></key>
+    <key name="label-size" type="s"><choices><choice value="small"/><choice value="normal"/><choice value="large"/></choices><default>'normal'</default><summary>Lunar annotation size</summary></key>
+    <key name="show-details" type="b"><default>true</default><summary>Show details for the selected date</summary></key>
+    <key name="show-ganzhi" type="b"><default>true</default><summary>Show cyclical year and zodiac</summary></key>
+    <key name="show-festivals" type="b"><default>true</default><summary>Show traditional festivals</summary></key>
+    <key name="show-solar-terms" type="b"><default>true</default><summary>Show solar terms</summary></key>
+  </schema>
+</schemalist>
