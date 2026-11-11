@@ -73,7 +73,7 @@ class InjectionManager {
 '''
     (destination / 'dateMenu43.js').write_text(
         '// Generated GNOME 43 adapter; shared implementation: src/ui/dateMenu.js.\n'
-        'const {Clutter, St} = imports.gi;\n'
+        'const {Clutter, St, Pango} = imports.gi;\n'
         'const Me = imports.misc.extensionUtils.getCurrentExtension();\n'
         'const {annotation, dateText, detailsText, hourText} = Me.imports.calendarBundle.format;\n' +
         injections + view)

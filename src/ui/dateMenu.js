@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
+import Pango from 'gi://Pango';
 import {InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {annotation, dateText, detailsText, hourText} from '../calendar/format.js';
 
@@ -29,15 +30,18 @@ export class DateMenuView {
             orientation: Clutter.Orientation.VERTICAL, x_expand: true});
         const heading = new St.BoxLayout({style_class: 'system-lunar-details-heading', x_expand: true});
         this._dateLabel = new St.Label({style_class: 'system-lunar-details-date',
+            y_align: Clutter.ActorAlign.CENTER});
+        this._festivalLabel = new St.Label({style_class: 'system-lunar-details-events',
             x_expand: true, y_align: Clutter.ActorAlign.CENTER});
+        // Keep short solar terms inline. Long coinciding festivals may ellipsize
+        // rather than enlarging the calendar; the full text stays accessible.
+        this._festivalLabel.clutter_text.ellipsize = Pango.EllipsizeMode.END;
         this._yearLabel = new St.Label({style_class: 'system-lunar-details-year',
             x_align: Clutter.ActorAlign.END, y_align: Clutter.ActorAlign.CENTER});
         heading.add_child(this._dateLabel);
+        heading.add_child(this._festivalLabel);
         heading.add_child(this._yearLabel);
-        this._festivalLabel = new St.Label({style_class: 'system-lunar-details-events'});
-        this._festivalLabel.clutter_text.line_wrap = true;
         this._details.add_child(heading);
-        this._details.add_child(this._festivalLabel);
         const view = this;
         // Keep the native "return to today" button, replacing only its content.
         this._injections.overrideMethod(menu._date, 'setDate', original => function (...args) {
@@ -59,10 +63,13 @@ export class DateMenuView {
         this._connect(menu._clockDisplay, 'notify::text', () => this._refreshPanel());
         this._connect(menu._calendar, 'selected-date-changed', () => this._refreshDetails());
         this._connect(menu.menu, 'open-state-changed', (_actor, open) => { if (open) this._refreshDetails(); });
-        this._connect(this._settings, 'changed', () => {
-            menu._calendar._rebuildCalendar();
-            this._refreshPanel();
-            this._refreshDetails();
+        this._connect(this._settings, 'changed', (_settings, key) => {
+            // Panel-only preferences must not recreate all 42 date actors.
+            if (!key || ['show-calendar', 'label-size', 'show-festivals', 'show-solar-terms'].includes(key))
+                menu._calendar._rebuildCalendar();
+            if (!key || ['show-date', 'show-time'].includes(key)) this._refreshPanel();
+            if (!key || ['show-details', 'show-ganzhi', 'show-festivals', 'show-solar-terms'].includes(key))
+                this._refreshDetails();
         });
         menu._calendar._rebuildCalendar();
         this._refreshPanel();
@@ -93,13 +100,15 @@ export class DateMenuView {
         const content = show ? this._details : this._originalHeader;
         if (this._menu._date.get_child() !== content)
             this._menu._date.set_child(content);
-        this._dateLabel.text = info ? `${this._('Lunar calendar')} · ${dateText(info)}` :
+        this._dateLabel.text = info ? dateText(info) :
             this._('Lunar dates are available from 1734 to 2200.');
         this._yearLabel.text = !info ? '' : this._settings.get_boolean('show-ganzhi') ?
             `${info.ganzhiYear}年 · ${info.zodiac}年` : `${info.year}年`;
         this._yearLabel.visible = Boolean(info);
-        this._festivalLabel.text = detailsText(info, this._options());
-        this._festivalLabel.visible = this._festivalLabel.text.length > 0;
+        const events = detailsText(info, this._options());
+        this._festivalLabel.text = events ? `· ${events}` : '';
+        // Always reserve the flexible spacer so the year stays right-aligned
+        // on ordinary days as well as festival days.
         if (show)
             this._menu._date.accessible_name = [this._dateLabel.text, this._yearLabel.text,
                 this._festivalLabel.text].filter(Boolean).join(' ');

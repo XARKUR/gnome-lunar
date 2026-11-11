@@ -18,8 +18,7 @@
     padding-top: 2px;
     padding-bottom: 2px;
 }
-.system-lunar-details { spacing: 0.3em; }
-.system-lunar-details-heading { spacing: 1em; }
+.system-lunar-details-heading { spacing: 0.6em; }
 .system-lunar-details-date { font-size: 1.15em; font-weight: bold; }
 .system-lunar-details-year { font-size: 1.0em; }
-.system-lunar-details-events { font-size: 1.0em; }
+.system-lunar-details-events { font-size: 1.0em; font-weight: normal; }

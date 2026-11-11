@@ -94,6 +94,7 @@ function synthetic(name, exports) {
 }
 synthetic('gi://Clutter', {default: clutter});
 synthetic('gi://St', {default: st});
+synthetic('gi://Pango', {default: {EllipsizeMode: {END: 3}}});
 synthetic('resource:///org/gnome/shell/ui/main.js', main);
 synthetic('resource:///org/gnome/shell/extensions/extension.js', {
     Extension: class {getSettings() {return settings;} gettext(text) {return text;}}, InjectionManager});
@@ -128,9 +129,11 @@ for (const [version, fixture] of Object.entries(nativeCalendars)) {
         assert.match(clockDisplay.text, /日.+时$/);
         assert.equal(today.get_child(), view._details);
         const heading = view._details.get_child();
-        assert.deepEqual(heading.children, [view._dateLabel, view._yearLabel], 'Lunar date and year are not in the same row');
+        assert.deepEqual(heading.children, [view._dateLabel, view._festivalLabel, view._yearLabel], 'Lunar date, events and year are not in the same row');
+        assert.equal(view._details.children.length, 1, 'A festival added a second header row');
         assert.equal(heading.orientation, undefined, 'Header row is vertical');
-        assert.equal(view._dateLabel.x_expand, true);
+        assert.equal(view._festivalLabel.x_expand, true);
+        assert.equal(view._festivalLabel.clutter_text.ellipsize, 3, 'Long festivals may expand the popup');
         assert.equal(view._yearLabel.x_align, clutter.ActorAlign.END);
         today.setDate(new Date());
         assert.match(today.accessible_name, /正月初一/, 'Native date update overwrote the lunar header');
@@ -139,8 +142,32 @@ for (const [version, fixture] of Object.entries(nativeCalendars)) {
         clockDisplay.emit('notify::text');
         assert.ok(clockDisplay.text.startsWith('12:01\u2001'), 'Clock binding update lost the lunar suffix');
         assert.equal(calendar._buttons.length, 42, 'Native month grid changed');
-        assert.equal(view._dateLabel.text, 'Lunar calendar · 正月初一');
-        assert.equal(view._festivalLabel.text, '春节');
+        assert.equal(view._dateLabel.text, '正月初一');
+        assert.equal(view._festivalLabel.text, '· 春节');
+        const initialButtons = [...calendar._buttons];
+        values['show-time'] = false;
+        settings.emit('changed', 'show-time');
+        assert.ok(calendar._buttons.length === initialButtons.length &&
+            calendar._buttons.every((button, index) => button === initialButtons[index]),
+        'Panel-only setting rebuilt the month grid');
+        assert.ok(!clockDisplay.text.endsWith('时'), 'Panel-only setting did not update the clock');
+        values['show-time'] = true;
+        settings.emit('changed', 'show-time');
+        assert.match(today.accessible_name, /春节/, 'Festival missing from accessible header');
+        values['show-festivals'] = false;
+        settings.emit('changed');
+        assert.equal(view._festivalLabel.text, '');
+        assert.notEqual(view._festivalLabel.visible, false, 'Empty inline label must keep the flexible spacer');
+        values['show-festivals'] = true;
+        settings.emit('changed');
+        calendar._selectedDate = new Date(2026, 10, 22);
+        calendar.emit('selected-date-changed');
+        assert.equal(view._festivalLabel.text, '· 小雪');
+        values['show-solar-terms'] = false;
+        settings.emit('changed');
+        assert.equal(view._festivalLabel.text, '', 'Solar-term switch ignored in inline header');
+        values['show-solar-terms'] = true;
+        settings.emit('changed');
         assert.equal(view._days.size, 42);
         // Real native freeze/cache methods; simulated actor sizes only. This
         // verifies invalidation, not CSS rendering or actual screen geometry.
@@ -165,7 +192,7 @@ for (const [version, fixture] of Object.entries(nativeCalendars)) {
                     assert.equal(day.get_child(), state.box);
                     assert.ok(state.box.children[1].text.length > 0, 'Empty lunar annotation after month change');
                 }
-                if (month === 11) assert.equal(view._dateLabel.text, 'Lunar calendar · 冬月初四');
+                if (month === 11) assert.equal(view._dateLabel.text, '冬月初四');
             }
         }
         calendar._selectedDate = new Date(2026, 1, 17);
