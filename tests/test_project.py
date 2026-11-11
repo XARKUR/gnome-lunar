@@ -7,16 +7,45 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 spec = importlib.util.spec_from_file_location('extension_project', ROOT / 'project.py')
 project = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(project)
 
 
 class ProjectTests(unittest.TestCase):
+    def test_setup_preserves_other_extensions_and_enables_project(self):
+        import install_utils
+        state = {'enabled-extensions': ['unrelated@example', 'lunarcal@ailin.nemui'],
+                 'disabled-extensions': ['lunar-calendar@system.local']}
+        writes = []
+        with patch.object(install_utils, 'read_shell_state', return_value=state), \
+                patch.object(install_utils, 'write_shell_state', side_effect=writes.append), \
+                patch.object(project, 'assert_target'), patch.object(project, 'install') as install, \
+                contextlib.redirect_stdout(io.StringIO()):
+            project.setup()
+        install.assert_called_once()
+        self.assertEqual(writes[-1]['enabled-extensions'], ['unrelated@example', 'lunar-calendar@system.local'])
+        self.assertEqual(writes[-1]['disabled-extensions'], ['lunarcal@ailin.nemui'])
+
+    def test_setup_failure_restores_extension_enable_lists(self):
+        import install_utils
+        state = {'enabled-extensions': ['unrelated@example', 'lunar-calendar@system.local'],
+                 'disabled-extensions': ['other@example']}
+        writes = []
+        with patch.object(install_utils, 'read_shell_state', return_value=state), \
+                patch.object(install_utils, 'write_shell_state', side_effect=writes.append), \
+                patch.object(project, 'assert_target'), \
+                patch.object(project, 'install', side_effect=RuntimeError('fixture failure')):
+            with self.assertRaisesRegex(RuntimeError, 'fixture failure'):
+                project.setup()
+        self.assertEqual(writes[-1], state)
+
     def test_translation_roundtrip_and_fuzzy(self):
         with tempfile.TemporaryDirectory() as tmp:
             po, mo = Path(tmp) / 'test.po', Path(tmp) / 'test.mo'

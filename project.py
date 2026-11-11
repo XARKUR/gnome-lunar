@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import zipfile
+from install_utils import extension_update
 
 ROOT = Path(__file__).resolve().parent
 
@@ -205,6 +206,18 @@ def install():
     print('Installed, not enabled:', target)
 
 
+def setup():
+    """Install or update and enable using the current desktop user's settings."""
+    assert_target()
+    for command in ['glib-compile-schemas', 'gsettings']:
+        if not shutil.which(command):
+            raise RuntimeError('Missing GNOME dependency: ' + command)
+    upstream = json.loads((ROOT / 'upstream.lock.json').read_text())['upstream_uuid']
+    with extension_update(metadata()['uuid'], [upstream]):
+        install()
+    print('gnome-lunar 已安装。请注销并重新登录，以加载新扩展。')
+
+
 def preset():
     assert_target()
     meta = metadata()
@@ -226,7 +239,7 @@ def preset():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', nargs='?', default='plan',
-                        choices=['plan', 'check', 'package', 'install', 'preset'])
+                        choices=['plan', 'check', 'package', 'install', 'preset', 'setup'])
     parser.add_argument('--apply', action='store_true', help='Required for install/preset')
     parser.add_argument('--shell', default='modern', choices=['modern', '43'], help='Package loader target')
     args = parser.parse_args()
@@ -242,7 +255,7 @@ def main():
         if args.command == 'package':
             package(args.shell)
         else:
-            {'check': check, 'install': install, 'preset': preset}[args.command]()
+            {'check': check, 'install': install, 'preset': preset, 'setup': setup}[args.command]()
 
 
 if __name__ == '__main__':

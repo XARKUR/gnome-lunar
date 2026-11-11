@@ -1,4 +1,4 @@
-GNOME Lunar Calendar — independent implementation
+gnome-lunar — independent implementation
 
 Project-owned extension entry point, date-menu integration, preferences,
 civil-date engine, formatting, festival list, tooling and tests:
