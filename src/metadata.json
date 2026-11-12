@@ -2,12 +2,12 @@
   "creator": "System project contributors",
   "description": "独立实现的顶栏农历与原生月历标注，包含节气、传统节日和日期详情。",
   "gettext-domain": "lunar-calendar@system.local",
-  "name": "gnome-lunar",
+  "name": "Gnome Lunar",
   "settings-schema": "org.gnome.shell.extensions.system-lunar-calendar",
   "shell-version": [
     "48",
     "51"
   ],
   "uuid": "lunar-calendar@system.local",
-  "version": 10
+  "version": 11
 }

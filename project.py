@@ -215,7 +215,7 @@ def setup():
     upstream = json.loads((ROOT / 'upstream.lock.json').read_text())['upstream_uuid']
     with extension_update(metadata()['uuid'], [upstream]):
         install()
-    print('gnome-lunar 已安装。请注销并重新登录，以加载新扩展。')
+    print('Gnome Lunar 已安装。请注销并重新登录，以加载新扩展。')
 
 
 def preset():
